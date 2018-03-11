@@ -22,6 +22,9 @@ import static java.util.Objects.isNull;
  * This means functor may not necessarily encapsulate exactly one value of type T
  */
 class FOptional<T> implements Functor<T, FOptional<?>> {
+
+    private static final FOptional <?> EMPTY = new FOptional<>(null);
+
     private final T valueOrNull;
 
     private FOptional(T valueOrNull) {
