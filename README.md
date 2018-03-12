@@ -13,6 +13,8 @@ Characteristics of Pure Function:
 * They do not have any side effects like net­work or data­base calls
 * They do not mod­ify the argu­ments which are passed to them
 
+The most significant characteristic of pure functions is that they don't modify any state. This includes state on the arguments provided to the function, global state, or even state external to the program itself. Functional programmers like to say that non-pure functions can really do anything they want, and there's no way to know at the call site that there won't be side-effects at the call site. One amusing example is that calling a non-pure function may launch a missile somewhere. Certainly not likely, but how can you guarantee that calling some arbitrary procedure won't actually do this without investigating the code yourself? If the function is pure, then it cannot launch any missiles, by definition.
+
 Characteristics of Impure functions
 
 * The return value of the impure func­tions does not solely depend on its arguments Hence, if you call the impure func­tions with the same set of argu­ments, you might get the dif­fer­ent return values For exam­ple, Math.random(), Date.now()
@@ -42,6 +44,7 @@ One of the consequences of having first class functions is that you should be ab
 ### Mutability
 
 **Mutable object** (changeable object) is an object which can be modified after it is created.
+
 Mutation can happen on two levels: reference mutation and value mutation. Reference mutation happens when you assign a new reference to an existing variable:
 
 ```
@@ -56,3 +59,30 @@ Mutation can happen on two levels: reference mutation and value mutation. Refere
         System.out.println(person2); //MutablePerson(name=Ruslan, age=27
     }
 ```
+
+In this example, the reference person1 was mutated, but the object it was pointing to was not, so the value pointed to by person2 was not changed.
+
+Value mutation happens when you modify an existing object:
+
+```
+private static void valueMutation (){
+        MutablePerson person1 = new MutablePerson("Ruslan", "27");
+        MutablePerson person2 = person1;
+
+        //Value mutation
+        person1.setName("Igor");
+
+        System.out.println(person1); //MutablePerson(name=Igor, age=27)
+        System.out.println(person2); //MutablePerson(name=Igor, age=27)
+    }
+```
+
+Here, even though person2 was not directly modified, it is referencing the same object as person1, and the value of its name property was changed.
+
+What Is Wrong With Mutability?
+
+* Hard to reason
+* Hard to make concurrent/parallelize
+* Leads to errors
+
+*Classes should be immutable unless there’s a very good reason to make them mutable. If a class cannot be made immutable, limit its mutability as much as possible.* (c) Josh Bloch
