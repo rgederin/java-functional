@@ -1,7 +1,11 @@
 # Core information about functional programming
 In this repo I collected several useful termins, examples and other things which are related to functional programming
 
-## Pure/impure functions
+## Fuctions 
+
+Here is [code examples](https://github.com/rgederin/java-functional/blob/master/src/main/java/com/gederin/functional/functions/Functions.java) for different function types.
+
+### Pure/impure functions
 
 Characteristics of Pure Function:
 
@@ -16,11 +20,12 @@ Characteristics of Impure functions
 * They may mod­ify the argu­ments which are passed to them
 
 
-## High-order and first-class functions
+### High-order and first-class functions
 
 The main concept behind functional programming is that data and behaviors can be treated and manipulated uniformly and in the same way. In practical terms this means that it is possible to pass to a method both values and functions and in the same way the method itself can return either a value or a function. With this regard a function accepting one or more functions as argument and/or returning another function as result is called an **higher-order function**. 
 
 Since Java 8 version we have suppourt of high-order functions in Java via lambdas and functional interfaces.
+
 ### First-class functions
 
 Values in a language that are handled uniformly throughout are called "first class". They may be stored in data structures, passed as arguments, or used in control structures.
