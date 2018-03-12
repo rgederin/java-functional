@@ -106,3 +106,18 @@ Benefits of programming with immutable objects.
 * Immutability makes it easier to parallelize your program as there are no conflicts among objects.
 * The internal state of your program will be consistent even if you have exceptions.
 * References to immutable objects can be cached as they are not going to change.
+
+## Functor
+
+A functor is a typed data structure that encapsulates some value(s). From a syntactic perspective a functor is a container with the following API:
+
+```
+interface Functor<T> {
+    <R> Functor<R> map(Function<T, R> f);
+}
+```
+
+The only operation that functor provides is map() that takes a function f. This function receives whatever is inside a box, transforms it and wraps the result as-is into a second functor. Please read that carefully. Functor<T> is always an immutable container, thus map never mutates the original object it was executed on. Instead, it returns the result (or results - be patient) wrapped in a brand new functor, possibly of different type R. Additionally functors should not perform any actions when identity function is applied, that is map(x -> x). Such a pattern should always return either the same functor or an equal instance.
+
+Often Functor<T> is compared to a box holding instance of T where the only way of interacting with this value is by transforming it. However, there is no idiomatic way of unwrapping or escaping from the functor. The value(s) always stay within the context of a functor. Why are functors useful? They generalize multiple common idioms like collections, promises, optionals, etc. with a single, uniform API that works across all of them.
+
