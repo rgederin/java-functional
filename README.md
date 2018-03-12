@@ -7,7 +7,7 @@ Here is [code examples](https://github.com/rgederin/java-functional/blob/master/
 
 ### Pure/impure functions
 
-Characteristics of Pure Function:
+**Characteristics of Pure Function**
 
 * The return value of the pure func­tions solely depends on its arguments Hence, if you call the pure functions with the same set of argu­ments, you will always get the same return values.
 * They do not have any side effects like net­work or data­base calls
@@ -15,7 +15,7 @@ Characteristics of Pure Function:
 
 The most significant characteristic of pure functions is that they don't modify any state. This includes state on the arguments provided to the function, global state, or even state external to the program itself. Functional programmers like to say that non-pure functions can really do anything they want, and there's no way to know at the call site that there won't be side-effects at the call site. One amusing example is that calling a non-pure function may launch a missile somewhere. Certainly not likely, but how can you guarantee that calling some arbitrary procedure won't actually do this without investigating the code yourself? If the function is pure, then it cannot launch any missiles, by definition.
 
-Characteristics of Impure functions
+**Characteristics of Impure functions**
 
 * The return value of the impure func­tions does not solely depend on its arguments Hence, if you call the impure func­tions with the same set of argu­ments, you might get the dif­fer­ent return values For exam­ple, Math.random(), Date.now()
 * They may have any side effects like net­work or data­base calls
@@ -85,4 +85,24 @@ What Is Wrong With Mutability?
 * Hard to make concurrent/parallelize
 * Leads to errors
 
-**Classes should be immutable unless there’s a very good reason to make them mutable. If a class cannot be made immutable, limit its mutability as much as possible.** (c) Josh Bloch
+**Classes/objects should be immutable unless there’s a very good reason to make them mutable. If a class cannot be made immutable, limit its mutability as much as possible.** (c) Josh Bloch
+
+### Immutability
+
+An immutable object is an object whose state cannot be changed once it has been created.
+
+Rules for making classes/objects immutable (Java)
+
+* All fields must be private and final. If a field is private, it cannot be externally changed. If, as a bonus, it's also final, you cannot accidentally change it.
+* Do not provide a setter. Combine this with the previous point. If the fields are private and there is no setter provided, this class fields will always remain the same.
+* Subclasses should not be able to override methods. Otherwise, they can trick our immutability. This is easy. Just declare the class as final.
+* Do not change the state of the objects in any methods of the clas
+
+Benefits of programming with immutable objects.
+
+* Immutable objects are thread-safe so you will not have any synchronization issues.
+* Immutable objects are good Map keys and Set elements, since these typically do not change once created.
+* Immutability makes it easier to write, use and reason about the code (class invariant is established once and then unchanged)
+* Immutability makes it easier to parallelize your program as there are no conflicts among objects.
+* The internal state of your program will be consistent even if you have exceptions.
+* References to immutable objects can be cached as they are not going to change.
