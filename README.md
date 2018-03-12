@@ -35,3 +35,24 @@ Languages which support values with function types, and treat them the same as n
 ### High-order functions
 
 One of the consequences of having first class functions is that you should be able to pass a function as an argument to another function. The latter function is now "higher order". It is a function that takes a function as an argument.
+
+
+## Mutability vs Immutability
+
+### Mutability
+
+**Mutable object** (changeable object) is an object which can be modified after it is created.
+Mutation can happen on two levels: reference mutation and value mutation. Reference mutation happens when you assign a new reference to an existing variable:
+
+```
+ private static void referenceMutation (){
+        MutablePerson person1 = new MutablePerson("Ruslan", "27");
+        MutablePerson person2 = person1;
+        
+        //Reference mutation
+        person1 = new MutablePerson("Dima", "35");
+
+        System.out.println(person1); //MutablePerson(name=Dima, age=35)
+        System.out.println(person2); //MutablePerson(name=Ruslan, age=27
+    }
+```
