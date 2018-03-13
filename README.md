@@ -107,6 +107,93 @@ Benefits of programming with immutable objects.
 * The internal state of your program will be consistent even if you have exceptions.
 * References to immutable objects can be cached as they are not going to change.
 
+## Lazy and strict (eager) evaluation
+
+Lazy evaluation is an evaluation strategy which delays the evaluation of an expression until its value is needed. The opposite of this is eager evaluation, where an expression is evaluated as soon as it is bound to a variable.
+
+Like most imperative programming languages, Java evaluates a method’s arguments eagerly (strict), but we should consider a lazy alternative for scenarios where we can boost performance, for example avoiding a needless expensive computation.
+
+However we could implement lazy evaluation exploiting Functional interfaces and Lambda expressions.
+
+Let’s suppose we have the following expensive computation:
+
+```
+static boolean compute(String str) {
+    System.out.println("executing...");
+    // expensive computation here
+    return str.contains("a");
+}
+```
+
+Strict evaluation
+
+Consider the following function which takes two booleans and returns “match” if both are true, otherwise returns “incompatible!”.
+
+```
+static String eagerMatch(boolean b1, boolean b2) {
+    return b1 && b2 ? "match" : "incompatible!";
+}
+
+public static void main(String [] args) {
+    System.out.print(eagerMatch(compute("bb"), compute("aa")));
+} 
+```
+
+Running this program produces the following output:
+
+```
+executing...
+executing...
+incompatible! 
+```
+
+**Lazy evaluation**
+
+Let’s implement a lazy version using the Supplier functional interface.
+
+From the Java specification, interface Supplier
+
+* Represents a supplier of results.
+* There is no requirement that a new or distinct result be returned each time the supplier is invoked.
+* This is a functional interface whose functional method is get().
+
+Basically it represents a function that takes no arguments and returns a value. In this case we use a supplier of boolean to create a lazy match equivalent to eager match:
+
+```
+static String lazyMatch(Supplier a, Supplier b) {
+    return a.get() && b.get() ? "match" : "incompatible!";
+}
+```
+
+Because Supplier is a functional interface, it can be used as the assignment of a lambda expression:
+
+```
+public static void main(String [] args) {
+    System.out.println(lazyMatch(() -> compute("bb"), () -> compute("aa")));
+} 
+```
+
+The output of running this program for no match:
+
+```
+executing...
+incompatible!
+```
+
+Two important things to notice in running this example:
+
+* compute is executed when the functional method get is invoked.
+* && operator exhibits “short-circuiting”, which means that the second operand is evaluated only if needed.
+
+The combination of lazy argument and operand evaluation allows this program to avoid the expensive execution in compute(“aa”).
+
+We have seen how simple it is to convert an eagerly evaluated method into a lazy evaluated one. Although the lazy call is a bit more involved compared to the eager call, the performance gains payoff the cosmetic drawback. Having said that, do not use lazy strategy everywhere, but do use it for cases where there are clear signs of performance improvements, i.e. :
+
+* Avoiding needless computation.
+* Logging.
+* Generating an infinite data structure that will only be used until some unknown limit.
+
+
 ## Recursion
 
 A recursive method is a method that calls itself. Such a call is called a recursive call or recursion. A recursive method must contain at least one non-recursive branch, that is, a branch that does not contain a recursive call, and the chain of recursive calls must always end with the execution of such a branch.
