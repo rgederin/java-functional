@@ -109,6 +109,8 @@ Benefits of programming with immutable objects.
 
 ## Functor
 
+Here is [some code examples](https://github.com/rgederin/java-functional/blob/master/src/main/java/com/gederin/functional/functor) for functors.
+
 A functor is a typed data structure that encapsulates some value(s). From a syntactic perspective a functor is a container with the following API:
 
 ```
@@ -121,3 +123,67 @@ The only operation that functor provides is map() that takes a function f. This 
 
 Often Functor<T> is compared to a box holding instance of T where the only way of interacting with this value is by transforming it. However, there is no idiomatic way of unwrapping or escaping from the functor. The value(s) always stay within the context of a functor. Why are functors useful? They generalize multiple common idioms like collections, promises, optionals, etc. with a single, uniform API that works across all of them.
 
+## Monads
+
+Here is [some code examples](https://github.com/rgederin/java-functional/blob/master/src/main/java/com/gederin/functional/monad) for monads.
+
+A monad is a pattern in software development. The monad is about putting a value in computational context in order to hide the complexity of computational context.
+
+In native Java 8 API we have three examples of the monads - Optional, Stream and CompletableFuture.
+
+Context for Optional is that value could be there or not, for Stream monad - that you could have multiple values, for CompletableFuture - something will be ready in the future.
+
+Here is example of self-writed Optional monad:
+
+```
+public class MOptional<T> {
+    private static final MOptional EMPTY = new MOptional<>(null);
+
+    private final T value;
+
+    private MOptional(T value) {
+        this.value = value;
+    }
+
+    public <U> MOptional<U> map(Function<? super T, ? extends U> function) {
+        return isNull(value) ? EMPTY : new MOptional(function.apply(value));
+    }
+    
+    public <U> MOptional<U> flatMap(Function<? super T, MOptional<U>> f) {
+        return isNull(value) ? EMPTY : f.apply(value);
+    }
+
+    public T orElse(T other) {
+        return nonNull(value) ? value : other;
+    }
+
+    public static <T> MOptional<T> of(T a) {
+        return new MOptional<T>(a);
+    }
+}
+```
+
+And typical usage of monad:
+
+```
+public static String getCarInsuranceName(Person person) {
+        return MOptional.of(person)
+                .flatMap(Person::getCar)            //flatMap defines monad's policy for monads composition
+                .flatMap(Car::getInjurance)
+                .map(Insurance::getInsuranceName)   //map defines monad's policy for function application
+                .orElse("unknown");
+    }
+```
+
+**The Optional monad** makes the possibility of missing data expicit in the type system, while hiding the boilerplate of "if non-null" logic.
+**The Stream monad** makes the possibility of multiple data explicit in the type system, while hidind the boilerplate of nested loops.
+**The promise monad** makes asynchronous computation explicit in the type system, while hiding the boilerplate thread logic.
+
+**Alternative Monads Definitions**
+
+Monads are parametric types with two operations flatMap and unit that obey some algebraic laws.
+
+Monads are structures that represent computations defined as sequences of steps.
+ 
+Monads are chainable containers types that confine values defining how to transform and combine them.
+ 
