@@ -1,6 +1,8 @@
 # Core information about functional programming
 In this repo I collected several useful terms, examples, approaches and other things which are related to functional programming. Actually these are main building blocs and principles in functional programming.
 
+All information here collected from different sources. Also I implemented several code examples with functional approach.
+
 ## Essentials of functional programming
 
 ![Essentials](https://github.com/rgederin/java-functional/blob/master/img/essensial.png)
@@ -13,9 +15,9 @@ Here is [code examples](https://github.com/rgederin/java-functional/blob/master/
 
 **Characteristics of Pure Function**
 
-* The return value of the pure func­tions solely depends on its arguments Hence, if you call the pure functions with the same set of argu­ments, you will always get the same return values.
-* They do not have any side effects like net­work or data­base calls
-* They do not mod­ify the argu­ments which are passed to them
+* The return value of the pure func­tions solely depends on its arguments. Hence, if you call the pure functions with the same set of argu­ments, you will always get the same return values.
+* They do not have any side effects like network or database calls
+* They do not modify the argu­ments which are passed to them
 
 The most significant characteristic of pure functions is that they don't modify any state. This includes state on the arguments provided to the function, global state, or even state external to the program itself. Functional programmers like to say that non-pure functions can really do anything they want, and there's no way to know at the call site that there won't be side-effects at the call site. One amusing example is that calling a non-pure function may launch a missile somewhere. Certainly not likely, but how can you guarantee that calling some arbitrary procedure won't actually do this without investigating the code yourself? If the function is pure, then it cannot launch any missiles, by definition.
 
