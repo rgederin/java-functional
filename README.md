@@ -266,12 +266,68 @@ Stream.of(1,2,3)
  */
 @FunctionalInterface
 public interface Semigroup<T> extends BinaryFunctionn<T>,BinaryOperator<T> {
-    
-    /* (non-Javadoc)
-     * @see java.util.function.BiFunction#applyHKT(java.lang.Object, java.lang.Object)
-     */
+
     @Override
     T apply(T t, T u);
   
+}
+```
+
+### Monoids
+
+Monoids are an extension of semigroups that include an identity or zero element. The identity element should be a value (A) that when applied to another value (B) of the same type using the semigrop leaves the other value (B) unchanged.
+
+**Identity values**
+
+* String concatenation : “”
+* List concatenation : [] <-empty list
+* Integer addition : 0 (0+ 1 = 1, 0 + 5 = 5 etc)
+* Boolean conjunction : true (true & false = false, true & true = true)
+* Boolean disjunction : false (false || false = false, false & true = true)
+
+**Monoids are in Java APIs already**
+
+The Stream API makes use of Monoids.
+
+```
+Stream.of(1,2,3)
+      .reduce(0,(a,b)->a+b);
+```
+
+In the example above we are passing in the Integer addition Monoid. The 0 is the identity element for integer addition (0 + 1 = 1, 0+50 =50 and so on)
+
+**Defining an interface for Monoids**
+
+A Java Monoid interface can simply extend Semigroup and add the identity (or zero) element.
+
+```
+public interface Monoid<T> extends Semigroup<T> {
+    T zero();
+}
+```
+
+### Groups
+
+Groups are Monoids that can be inverted. The Group for String concatenation is the Monoid for String concatenation and a function that inverts a String.
+
+Integer Addition Group
+
+```
+Semigroup : (a,b)->a+b;
+Identity : 0
+Inverse : -x
+
+Group<Integer> add = Groups.intSum;
+concat.reduceReverse(Stream.of(1,2,3));
+```
+
+
+**Defining an interface for Groups**
+
+A Java Group interface can extend Monoid and add an inversion function.
+
+```
+public interface Group<T> extends Monoid<T> {
+     T invert(T t);
 }
 ```
