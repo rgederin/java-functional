@@ -1,5 +1,9 @@
 # Core information about functional programming
-In this repo I collected several useful termins, examples and other things which are related to functional programming
+In this repo I collected several useful terms, examples, approaches and other things which are related to functional programming. Actually these are main building blocs and principles in functional programming.
+
+## Essentials of functional programming
+
+
 
 ## Fuctions 
 
@@ -17,7 +21,7 @@ The most significant characteristic of pure functions is that they don't modify 
 
 **Characteristics of Impure functions**
 
-* The return value of the impure func­tions does not solely depend on its arguments Hence, if you call the impure func­tions with the same set of argu­ments, you might get the dif­fer­ent return values For exam­ple, Math.random(), Date.now()
+* The return value of the impure func­tions does not solely depend on its arguments Hence, if you call the impure functions with the same set of argu­ments, you might get the dif­fer­ent return values For exam­ple, Math.random(), Date.now()
 * They may have any side effects like net­work or data­base calls
 * They may mod­ify the argu­ments which are passed to them
 
