@@ -107,6 +107,55 @@ Benefits of programming with immutable objects.
 * The internal state of your program will be consistent even if you have exceptions.
 * References to immutable objects can be cached as they are not going to change.
 
+## Recursion
+
+A recursive method is a method that calls itself. Such a call is called a recursive call or recursion. A recursive method must contain at least one non-recursive branch, that is, a branch that does not contain a recursive call, and the chain of recursive calls must always end with the execution of such a branch.
+
+If in a recursive method a non-recursive branch is absent or it is never transmitted control, then theoretically this method will be called infinitely. In practice, this will lead to a rapid memory overflow and an abnormal program termination.
+
+Now consider the problem of finding the sum of numbers from 0 to n. As you know, there is a formula with which it is easy enough to calculate this amount. However, we now will be interested in the implementation of the method that receives the result by direct summation.
+
+```
+  private static int iterativeSum(int n) {
+        int sum = 0;
+
+        for (int i = 0; i < n; i++)
+            sum += i;
+
+        return sum;
+    }
+```
+
+And recursive solution
+
+```
+private static int recursiveSum(int n) {
+        if (n == 0)
+            return 0;
+
+        return n + recursiveSum(n - 1);
+    }
+```
+
+**Tail recursion** is a special case of recursion, in which a recursive call is unique and is the last instruction of the method. In this case, the method that called "itself" must immediately return the result of the recursive call, without making any preliminary transformations on it.
+
+As we see, a recursive call is the last instruction of the *recursiveSum()* method. However, this method returns the result of a recursive call, increased by the value of the variable *n*, that is, the converted one. For this reason, the recursion implemented in the *recursiveSum()* method is not tail.
+
+In order to transform it into a tail, we introduce a new local variable sum, in which the intermediate summation results will be stored. The value of this variable will be passed to the new version of our recursive method along with the value of n.
+
+```
+private static int tailRecursionSum(int n, int sum) {
+        if (n == 0)
+            return sum;
+
+        return tailRecursionSum(n - 1, sum + n);
+    }
+```
+
+Tail Call Optimization, allow is to make some function calls without growing the call stack.
+
+By default Java 8 not support TCO but it could be achived with some complex approach via datastructures for computation.
+
 ## Functor
 
 Here is [some code examples](https://github.com/rgederin/java-functional/blob/master/src/main/java/com/gederin/functional/functor) for functors.
