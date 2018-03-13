@@ -7,7 +7,7 @@ All information here collected from different sources. Also I implemented severa
 
 ![Essentials](https://github.com/rgederin/java-functional/blob/master/img/essensial.png)
 
-## Fuctions 
+## Functions 
 
 Here is [code examples](https://github.com/rgederin/java-functional/blob/master/src/main/java/com/gederin/functional/functions/Functions.java) for different function types.
 
