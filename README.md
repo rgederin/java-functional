@@ -177,7 +177,7 @@ public static String getCarInsuranceName(Person person) {
 
 **The Optional monad** makes the possibility of missing data expicit in the type system, while hiding the boilerplate of "if non-null" logic.
 **The Stream monad** makes the possibility of multiple data explicit in the type system, while hidind the boilerplate of nested loops.
-**The promise monad** makes asynchronous computation explicit in the type system, while hiding the boilerplate thread logic.
+**The Completable future monad** makes asynchronous computation explicit in the type system, while hiding the boilerplate thread logic.
 
 **Alternative Monads Definitions**
 
@@ -187,3 +187,91 @@ Monads are structures that represent computations defined as sequences of steps.
  
 Monads are chainable containers types that confine values defining how to transform and combine them.
  
+## Semigroups, Monoids, Group
+
+### Semigroups
+
+A semigroup is an associative binary operation across at least two instances of the same type. It can be represented by JDK interfaces such as BinaryOperator and BiFunction:
+
+```
+BinaryOperator<T>
+BinaryFunction<T,T,T>
+```
+
+**Associativity**
+
+Associativity implies that the order of application is not significant:
+
+```
+BinaryOperator<T> fn;
+fn.apply(fn.apply(a,b),c) = fn.apply(a,fn.apply(b,c))
+```
+
+**Examples of semigroups**
+
+String concatenation
+
+```
+BinaryOperator<String> concat = (a,b)->a+b;
+
+concat.apply(concat.apply("hello","world"),"c") = "helloworldc"
+concat.apply("hello",concat.apply("world","c")) = "helloworldc"
+```
+
+List concatenation
+
+```
+BinaryOperator<List<T>> concat = (a,b)->{
+                                          a.addAll(b);
+                                          return a;
+                                         };
+List<T> listA;
+List<T> listB;
+
+concat.apply(listA,listB);
+```
+
+Other types if semigroups
+
+```
+BinaryOperator<Integer> intSum = (a, b) -> a + b;
+
+BinaryOperator<Boolean> booleanConjunction = (a, b) -> a && b;
+
+BinaryOperator<Boolean> booleanDisjunction = (a, b) -> a || b;
+```
+
+**Semigroups are not commutative**
+
+```
+BinaryOperator<T> fn;
+fn.apply(a,b) != fn.apply(b,a)
+```
+
+**Semigroups are in Java APIs already**
+
+```
+Stream.of(1,2,3)
+      .reduce(0,(a,b)->a+b); 
+```
+
+**Interface for Semigroup**
+
+```
+/**
+ * An (associative) binary operation for combining values.
+ * Implementations should obey associativity laws.
+ *
+ * @param <T> Data type of elements toNested be combined
+ */
+@FunctionalInterface
+public interface Semigroup<T> extends BinaryFunctionn<T>,BinaryOperator<T> {
+    
+    /* (non-Javadoc)
+     * @see java.util.function.BiFunction#applyHKT(java.lang.Object, java.lang.Object)
+     */
+    @Override
+    T apply(T t, T u);
+  
+}
+```
