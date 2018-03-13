@@ -1,5 +1,5 @@
 # Core information about functional programming
-In this repo I collected several useful terms, examples, approaches and other things which are related to functional programming. Actually these are main building blocs and principles in functional programming.
+In this repo I collected several useful terms, examples, approaches and other things which are related to functional programming. Actually these are main building blocks and principles in functional programming.
 
 All information here collected from different sources. Also I implemented several code examples with functional approach.
 
