@@ -3,7 +3,7 @@ In this repo I collected several useful terms, examples, approaches and other th
 
 ## Essentials of functional programming
 
-(https://github.com/rgederin/java-functional/blob/master/img/essensial.png)
+![Essentials](https://github.com/rgederin/java-functional/blob/master/img/essensial.png)
 
 ## Fuctions 
 
